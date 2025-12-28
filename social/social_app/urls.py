@@ -15,7 +15,11 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
     path('login/', CustomLoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
-    path('users/', UserViewSet.as_view(), name='users'),
+
+    path('users/', UserListSet.as_view(), name='users'),
+    path('users/<int:pk>/edit', UserUpdateSet.as_view(), name='users_edit'),
+    path('users/<int:pk>/', UserDetailSet.as_view(), name='users_detail'),
+
     path('post/<int:pk>/edit/' , PostEditViewSet.as_view() , name = 'post_edit'),
     path('post/create/' , PostCreateViewSet.as_view() , name= 'post_create'),
     path('post/' , PostListViewSet.as_view() , name = 'post_list'),
@@ -42,6 +46,7 @@ urlpatterns = [
     path('following/create/', FollowingCreateAPISet.as_view(), name='following_create'),
 
     path('archive/', ArchiveListViewSet.as_view(), name='archive'),
+    path('archives/', ArchiveViewSet.as_view(), name='archives'),
     path('archive/<int:pk>/', ArchiveDetailViewSet.as_view(), name='archive_detail'),
     path('archive/<int:pk>/edit/', ArchiveEditViewSet.as_view(), name='archive_edit'),
     path('archive/create/', ArchiveCreateViewSet.as_view(), name='archive_create'),

@@ -5,7 +5,7 @@ from django.views.generic import ListView
 from .serializers import *
 from rest_framework import generics , status , viewsets
 from rest_framework import filters
-from .permission import CheckRole
+from .permission import CheckRole , IsArchiveOwner , StoryPermission
 from django_filters.rest_framework import DjangoFilterBackend
 
 
@@ -44,8 +44,8 @@ class LogoutView(generics.GenericAPIView):
         except Exception:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-class UserViewSet(generics.ListAPIView):
-    queryset = Post.objects.all()
+class UserListSet(generics.ListAPIView):
+    queryset = UserProfile.objects.all()
     serializer_class = UserProfileSerializers
     filter_backends = [filters.SearchFilter]
     search_fields = ['username', 'email']
@@ -53,6 +53,15 @@ class UserViewSet(generics.ListAPIView):
 
     def get_queryset(self):
         return UserProfile.objects.filter(id=self.request.user.id)
+
+class UserUpdateSet(generics.RetrieveUpdateDestroyAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializers
+
+class UserDetailSet(generics.RetrieveAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializers
+
 class HashTagViewSet(viewsets.ModelViewSet):
     queryset = HashTag.objects.all()
     serializer_class = HashTagSerializers
@@ -105,9 +114,14 @@ class NotesEditSet(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = NotesSerializers
 
 
+class ArchiveViewSet(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Archive.objects.all()
+    serializer_class = ArchiveSerializers
+
 class ArchiveListViewSet(generics.ListAPIView):
     queryset = ArchiveItems.objects.all()
     serializer_class = ArchiveItemsSerializers
+    permission_classes = [IsArchiveOwner]
 class ArchiveEditViewSet(generics.RetrieveUpdateDestroyAPIView):
     queryset = ArchiveItems.objects.all()
     serializer_class = ArchiveItemsSerializers
@@ -165,6 +179,7 @@ class MessageCreateApiView(generics.CreateAPIView):
 class StoriesListApi(generics.ListAPIView):
     queryset = Stories.objects.all()
     serializer_class = StoriesSerializers
+    permission_classes = [StoryPermission]
 class StoriesDetailApi(generics.RetrieveAPIView):
     queryset = Stories.objects.all()
     serializer_class = StoriesSerializers

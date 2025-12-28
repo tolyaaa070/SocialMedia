@@ -128,9 +128,16 @@ class NotesSerializers(serializers.ModelSerializer):
         fields = ['user' , 'music' , 'description']
 
 class StoriesSerializers(serializers.ModelSerializer):
+    user = UserProfileCreateSerializers()
     class Meta:
         model = Stories
         fields = '__all__'
+
+class ArchiveSerializers(serializers.ModelSerializer):
+    user = UserProfileCreateSerializers()
+    class Meta:
+        model = Archive
+        fields = ['user']
 class ArchiveItemsSerializers(serializers.ModelSerializer):
     class Meta:
         model = ArchiveItems
