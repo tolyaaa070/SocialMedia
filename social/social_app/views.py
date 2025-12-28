@@ -114,7 +114,7 @@ class NotesEditSet(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = NotesSerializers
 
 
-class ArchiveViewSet(generics.RetrieveUpdateDestroyAPIView):
+class ArchiveViewSet(viewsets.ModelViewSet):
     queryset = Archive.objects.all()
     serializer_class = ArchiveSerializers
 

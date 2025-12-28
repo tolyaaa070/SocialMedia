@@ -8,6 +8,7 @@ router = routers.SimpleRouter()
 
 router.register(r'reviewlike' , ReviewsLikeViewSet , basename='review_like')
 router.register(r'hashtag' , HashTagViewSet , basename='hashtag')
+router.register(r'archive' , ArchiveViewSet , basename='archive')
 urlpatterns = [
     path('', include(router.urls)),
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
@@ -45,11 +46,11 @@ urlpatterns = [
     path('following/<int:pk>/edit/', FollowingEditAPISet.as_view(), name='following_edit'),
     path('following/create/', FollowingCreateAPISet.as_view(), name='following_create'),
 
-    path('archive/', ArchiveListViewSet.as_view(), name='archive'),
-    path('archives/', ArchiveViewSet.as_view(), name='archives'),
-    path('archive/<int:pk>/', ArchiveDetailViewSet.as_view(), name='archive_detail'),
-    path('archive/<int:pk>/edit/', ArchiveEditViewSet.as_view(), name='archive_edit'),
-    path('archive/create/', ArchiveCreateViewSet.as_view(), name='archive_create'),
+    path('archive_it/', ArchiveListViewSet.as_view(), name='archive'),
+
+    path('archive_it/<int:pk>/', ArchiveDetailViewSet.as_view(), name='archive_detail'),
+    path('archive_it/<int:pk>/edit/', ArchiveEditViewSet.as_view(), name='archive_edit'),
+    path('archive_it/create/', ArchiveCreateViewSet.as_view(), name='archive_create'),
 
     path('notes/', NotesListSet.as_view(), name='notes'),
     path('notes/<int:pk>/', NotesCreateSet.as_view(), name='notes_detail'),
